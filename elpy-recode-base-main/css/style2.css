@@ -26,3 +26,19 @@ section#app div img {
 .mod-golge {
     box-shadow: 0px 1px 0px 7px #e91e63;
 }
+
+div#liste-elemani {
+    position: fixed;
+    background-color: bisque;
+    width: 200px;
+    min-height: 300px;
+    right: 1rem;
+    top:1rem;
+}
+
+button#durdurma-elemani {
+    position: fixed;
+    padding: 1rem;
+    left: 1rem;
+    top:1rem;
+}

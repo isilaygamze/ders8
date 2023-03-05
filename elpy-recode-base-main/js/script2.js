@@ -46,10 +46,29 @@ const modlar = [
     }
 ]
 
+let calanSesler = []
 
-const appElemani = document.querySelector("#app")
+const appElemani = document.querySelector("section#app")
 
-modlar.forEach( mod=>{
+//liste kutusu
+const listeElemani = document.createElement("div")
+listeElemani.id = "liste-elemani"
+appElemani.append(listeElemani)
+
+//durdurma butonu
+const durdurmaElemani = document.createElement("button")
+durdurmaElemani.textContent = "Tümünü Kapat"
+durdurmaElemani.id = "durdurma-elemani"
+appElemani.append(durdurmaElemani)
+durdurmaElemani.addEventListener("click", olay=>{
+    modlar.forEach( mod=>{
+        if( mod.audioEleman !== undefined && mod.audioEleman.paused !== true ) {
+            mod.audioEleman.pause()
+        }
+    } )
+})
+
+modlar.forEach( (mod, sira)=>{
     let modCerceve = document.createElement("div")
 
     //görsel ekle
@@ -69,8 +88,18 @@ modlar.forEach( mod=>{
 
         if( modSes.paused === true || modSes.paused === undefined ) {
             modSes.play()
+            
+            mod.audioEleman = modSes
+
+            calanSesler.push(sira)
+            listeGuncelle() 
         } else { //demek ki ses daha önce play edilmiş
             modSes.pause()
+
+            //array filter() fonksiyonu ile calanSesler arrayi içinden tıklanan ses numarasını çıkaracağız
+            calanSesler = calanSesler.filter( deger=> { return deger !== sira } )
+            
+            listeGuncelle() 
         }
 
         modCerceve.classList.toggle("mod-golge")
@@ -78,3 +107,17 @@ modlar.forEach( mod=>{
 
     appElemani.append(modCerceve)
 } )
+
+
+
+function listeGuncelle() {
+    listeElemani.innerHTML = "" //liste divi içini boşalttık
+    calanSesler.forEach( sira=>{
+        let sesAdi = modlar[sira].ad
+
+        let yeniP = document.createElement("p")
+        yeniP.textContent = sesAdi
+
+        listeElemani.append(yeniP)
+    } )
+}
